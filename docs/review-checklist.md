@@ -8,9 +8,9 @@
 
 ## Code Quality
 
-- Clear naming
-- No duplicated logic
-- Appropriate abstractions
+- Naming is clear and consistent.
+- Logic is not duplicated.
+- Abstractions are appropriate.
 
 ## Testing
 
@@ -20,9 +20,9 @@
 
 ## API
 
-- Backward compatible?
-- Correct status codes?
-- Proper validation?
+- RPC contract is appropriate?
+- Messages are backward compatible?
+- Validation is adequate?
 
 ## Documentation
 

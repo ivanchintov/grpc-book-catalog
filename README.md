@@ -27,9 +27,9 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 
 ✅ Initial Protocol Buffers schema
 
-✅ API design document
-
 ✅ Code generation
+
+✅ API design document
 
 ✅ Pull request review process
 
