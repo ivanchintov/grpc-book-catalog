@@ -26,6 +26,7 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     // Client API
     implementation("io.grpc:grpc-stub:$grpcVersion")
+    implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
     // Java annotations compatibility
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
 
