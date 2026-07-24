@@ -21,11 +21,23 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 
 ## Progress
 
+### Project Foundation
+
 ✅ Project setup
 
-⬜ Protocol Buffers
+✅ Initial Protocol Buffers schema
 
-⬜ Code generation
+✅ Code generation
+
+✅ API design document
+
+✅ Pull request review process
+
+⬜ Project architecture document
+
+⬜ GitHub Actions (CI)
+
+### Implementation
 
 ⬜ Unary RPC
 
