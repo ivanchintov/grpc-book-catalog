@@ -28,7 +28,7 @@ public class BookCatalogClient {
         return stub.getBook(request);
     }
 
-    public void shutDown() {
+    public void shutdown() {
         channel.shutdown();
     }
 }

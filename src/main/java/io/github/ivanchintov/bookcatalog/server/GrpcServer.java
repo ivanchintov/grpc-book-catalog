@@ -31,7 +31,7 @@ public class GrpcServer {
         server.shutdown();
     }
 
-    // Keep the application running until we're told to close.
+    // Blocks until the server is shut down.
     public void blockUntilShutdown() throws InterruptedException {
         server.awaitTermination();
     }

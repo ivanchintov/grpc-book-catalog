@@ -59,8 +59,8 @@ public class BookCatalogIntegrationTest {
     }
 
     @AfterAll
-    public static void teardown() {
-        CLIENT.shutDown();
+    public static void tearDown() {
+        CLIENT.shutdown();
         SERVER.stop();
     }
 }
