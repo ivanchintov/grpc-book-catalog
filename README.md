@@ -19,42 +19,37 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 - Explore unary and streaming RPCs
 - Learn authentication, deadlines and interceptors
 
-## Progress
+## 🚀 Progress
 
-### Project Foundation
+### 🏗️ Project Foundation
 
-✅ Project setup
+- ✅ Project setup
+- ✅ Initial Protocol Buffers schema
+- ✅ Code generation
+- ✅ API design document
+- ✅ Pull request review process
+- ⬜ Project architecture document
+- ⬜ GitHub Actions (CI)
 
-✅ Initial Protocol Buffers schema
+### 📚 Book Catalog Features
 
-✅ Code generation
+- ✅ Unary GetBook RPC
+- ✅ Java client
+- ✅ Integration tests
+- ✅ Repository abstraction
+- ✅ In-memory repository
+- ✅ gRPC server bootstrap
+- ⬜ AddBook RPC
+- ⬜ DeleteBook RPC
+- ⬜ ListBooks RPC
+- ⬜ SearchBooks RPC
 
-✅ API design document
+### ⚡ Advanced gRPC
 
-✅ Pull request review process
-
-⬜ Project architecture document
-
-⬜ GitHub Actions (CI)
-
-### Implementation
-
-⬜ Unary RPC
-
-⬜ Java client
-
-⬜ Automated tests
-
-⬜ Metadata
-
-⬜ Deadlines
-
-⬜ Server streaming
-
-⬜ Client streaming
-
-⬜ Bidirectional streaming
-
-⬜ Interceptors
-
-⬜ Authentication
+- ⬜ Metadata
+- ⬜ Deadlines
+- ⬜ Server streaming
+- ⬜ Client streaming
+- ⬜ Bidirectional streaming
+- ⬜ Interceptors
+- ⬜ Authentication
