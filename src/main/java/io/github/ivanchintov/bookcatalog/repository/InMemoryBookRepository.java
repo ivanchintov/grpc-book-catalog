@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class InMemoryBookRepository implements BookRepository{
+public class InMemoryBookRepository implements BookRepository {
 
     private final Map<Long, Book> books = new HashMap<>();
 
     public InMemoryBookRepository() {
         initializeBooks();
     }
-
 
     @Override
     public Optional<Book> findById(long id) {
@@ -34,6 +33,6 @@ public class InMemoryBookRepository implements BookRepository{
                 .build();
 
         books.put(dune.getId(), dune);
-        books.put(dune.getId(), theWayOfKings);
+        books.put(theWayOfKings.getId(), theWayOfKings);
     }
 }
