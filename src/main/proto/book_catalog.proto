@@ -25,3 +25,11 @@ message Book {
   int32 publication_year = 5;
   Genre genre = 6;
 }
+
+message GetBookRequest {
+  int64 id = 1;
+}
+
+service BookCatalog {
+  rpc GetBook(GetBookRequest) returns (Book);
+}
