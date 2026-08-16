@@ -15,7 +15,7 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 - Learn Protocol Buffers
 - Build a gRPC server
 - Build a reusable Java client
-- Automate the API
+- Write automated API tests
 - Explore unary and streaming RPCs
 - Learn authentication, deadlines and interceptors
 
@@ -39,10 +39,13 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 - ✅ Repository abstraction
 - ✅ In-memory repository
 - ✅ gRPC server bootstrap
-- ⬜ AddBook RPC
+- ✅ AddBook RPC
 - ⬜ DeleteBook RPC
 - ⬜ ListBooks RPC
 - ⬜ SearchBooks RPC
+- ⬜ Pagination
+- ⬜ Validation
+- ⬜ API versioning and backward compatibility
 
 ### ⚡ Advanced gRPC
 

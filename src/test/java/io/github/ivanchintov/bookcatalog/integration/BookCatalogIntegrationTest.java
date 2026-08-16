@@ -80,11 +80,11 @@ public class BookCatalogIntegrationTest {
 
         Book persistedBook = CLIENT.getBook(createdBook.getId());
         SoftAssertions softly = new SoftAssertions();
-        assertThat(persistedBook.getTitle()).isEqualTo(addBookRequest.getTitle());
-        assertThat(persistedBook.getAuthor()).isEqualTo(addBookRequest.getAuthor());
-        assertThat(persistedBook.getIsbn()).isEqualTo(addBookRequest.getIsbn());
-        assertThat(persistedBook.getPublicationYear()).isEqualTo(addBookRequest.getPublicationYear());
-        assertThat(persistedBook.getGenre()).isEqualTo(addBookRequest.getGenre());
+        softly.assertThat(persistedBook.getTitle()).isEqualTo(addBookRequest.getTitle());
+        softly.assertThat(persistedBook.getAuthor()).isEqualTo(addBookRequest.getAuthor());
+        softly.assertThat(persistedBook.getIsbn()).isEqualTo(addBookRequest.getIsbn());
+        softly.assertThat(persistedBook.getPublicationYear()).isEqualTo(addBookRequest.getPublicationYear());
+        softly.assertThat(persistedBook.getGenre()).isEqualTo(addBookRequest.getGenre());
         softly.assertAll();
     }
 
@@ -112,7 +112,10 @@ public class BookCatalogIntegrationTest {
         Book persistedFirstBook = CLIENT.getBook(firstBook.getId());
         Book persistedSecondBook = CLIENT.getBook(secondBook.getId());
 
-        assertThat(persistedFirstBook.getTitle()).isEqualTo(firstBook.getTitle());
-        assertThat(persistedSecondBook.getTitle()).isEqualTo(secondBook.getTitle());
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(firstBook.getId()).isNotEqualTo(secondBook.getId());
+        softly.assertThat(persistedFirstBook.getTitle()).isEqualTo(firstRequest.getTitle());
+        softly.assertThat(persistedSecondBook.getTitle()).isEqualTo(secondRequest.getTitle());
+        softly.assertAll();
     }
 }
