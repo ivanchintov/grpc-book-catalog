@@ -1,7 +1,9 @@
 package io.github.ivanchintov.bookcatalog.integration;
 
 import io.github.ivanchintov.bookcatalog.client.BookCatalogClient;
+import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
 import io.github.ivanchintov.bookcatalog.proto.Book;
+import io.github.ivanchintov.bookcatalog.proto.Genre;
 import io.github.ivanchintov.bookcatalog.repository.BookRepository;
 import io.github.ivanchintov.bookcatalog.repository.InMemoryBookRepository;
 import io.github.ivanchintov.bookcatalog.server.GrpcServer;
@@ -35,6 +37,12 @@ public class BookCatalogIntegrationTest {
         SERVER.start();
     }
 
+    @AfterAll
+    public static void tearDown() {
+        CLIENT.shutdown();
+        SERVER.stop();
+    }
+
     @Test
     public void shouldReturnBookWhenBookExists() {
         Book book = CLIENT.getBook(DUNE_ID);
@@ -58,9 +66,56 @@ public class BookCatalogIntegrationTest {
                 .isEqualTo("Book with ID: 333 was not found.");
     }
 
-    @AfterAll
-    public static void tearDown() {
-        CLIENT.shutdown();
-        SERVER.stop();
+    @Test
+    public void shouldSaveBookSuccessfully() {
+        AddBookRequest addBookRequest = AddBookRequest.newBuilder()
+                .setTitle("Foundation")
+                .setAuthor("Isaac Asimov")
+                .setIsbn("9780553293357")
+                .setPublicationYear(1951)
+                .setGenre(Genre.SCIENCE_FICTION)
+                .build();
+
+        Book createdBook = CLIENT.addBook(addBookRequest);
+
+        Book persistedBook = CLIENT.getBook(createdBook.getId());
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(persistedBook.getTitle()).isEqualTo(addBookRequest.getTitle());
+        softly.assertThat(persistedBook.getAuthor()).isEqualTo(addBookRequest.getAuthor());
+        softly.assertThat(persistedBook.getIsbn()).isEqualTo(addBookRequest.getIsbn());
+        softly.assertThat(persistedBook.getPublicationYear()).isEqualTo(addBookRequest.getPublicationYear());
+        softly.assertThat(persistedBook.getGenre()).isEqualTo(addBookRequest.getGenre());
+        softly.assertAll();
+    }
+
+    @Test
+    public void shouldPersistMultipleBooksIndependently() {
+        AddBookRequest firstRequest = AddBookRequest.newBuilder()
+                .setTitle("The Lord of The Rings")
+                .setAuthor("J. R. R. Tolkien")
+                .setIsbn("978-0-261-10320-7")
+                .setPublicationYear(1969)
+                .setGenre(Genre.FANTASY)
+                .build();
+
+        AddBookRequest secondRequest = AddBookRequest.newBuilder()
+                .setTitle("Skiing the Balkans")
+                .setAuthor("Dimitar Dimitrov")
+                .setIsbn("978-6199080900")
+                .setPublicationYear(2017)
+                .setGenre(Genre.SPORTS)
+                .build();
+
+        Book firstBook = CLIENT.addBook(firstRequest);
+        Book secondBook = CLIENT.addBook(secondRequest);
+
+        Book persistedFirstBook = CLIENT.getBook(firstBook.getId());
+        Book persistedSecondBook = CLIENT.getBook(secondBook.getId());
+
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(firstBook.getId()).isNotEqualTo(secondBook.getId());
+        softly.assertThat(persistedFirstBook.getTitle()).isEqualTo(firstRequest.getTitle());
+        softly.assertThat(persistedSecondBook.getTitle()).isEqualTo(secondRequest.getTitle());
+        softly.assertAll();
     }
 }

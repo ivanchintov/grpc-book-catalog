@@ -19,6 +19,16 @@ public class InMemoryBookRepository implements BookRepository {
         return Optional.ofNullable(books.get(id));
     }
 
+    @Override
+    public Book save(Book book) {
+        long id = getNextId();
+        Book savedBook = book.toBuilder()
+                .setId(id)
+                .build();
+        books.put(id, savedBook);
+        return savedBook;
+    }
+
     private void initializeBooks() {
         Book dune = Book.newBuilder()
                 .setId(1L)
@@ -34,5 +44,14 @@ public class InMemoryBookRepository implements BookRepository {
 
         books.put(dune.getId(), dune);
         books.put(theWayOfKings.getId(), theWayOfKings);
+    }
+
+    private long getNextId() {
+        return books
+                .keySet()
+                .stream()
+                .max(Long::compare)
+                .map(id -> id + 1)
+                .orElse(1L);
     }
 }
