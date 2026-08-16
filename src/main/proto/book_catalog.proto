@@ -15,6 +15,7 @@ enum Genre {
   ROMANCE = 5;
   HISTORY = 6;
   BIOGRAPHY = 7;
+  SPORTS = 8;
 }
 
 message Book {
