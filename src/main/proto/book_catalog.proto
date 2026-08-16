@@ -30,6 +30,15 @@ message GetBookRequest {
   int64 id = 1;
 }
 
+message AddBookRequest {
+  string title = 1;
+  string author = 2;
+  string isbn = 3;
+  int32 publication_year = 4;
+  Genre genre = 5;
+}
+
 service BookCatalog {
   rpc GetBook(GetBookRequest) returns (Book);
+  rpc AddBook(AddBookRequest) returns (Book);
 }
