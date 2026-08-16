@@ -1,5 +1,6 @@
 package io.github.ivanchintov.bookcatalog.client;
 
+import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
 import io.github.ivanchintov.bookcatalog.proto.Book;
 import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
 import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
@@ -26,6 +27,10 @@ public class BookCatalogClient {
                 .build();
 
         return stub.getBook(request);
+    }
+
+    public Book addBook(AddBookRequest request) {
+        return stub.addBook(request);
     }
 
     public void shutdown() {

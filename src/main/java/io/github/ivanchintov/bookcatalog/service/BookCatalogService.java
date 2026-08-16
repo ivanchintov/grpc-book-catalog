@@ -1,5 +1,6 @@
 package io.github.ivanchintov.bookcatalog.service;
 
+import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
 import io.github.ivanchintov.bookcatalog.proto.Book;
 import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
 import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
@@ -33,5 +34,21 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
                             .asRuntimeException()
             );
         }
+    }
+
+    @Override
+    public void addBook(AddBookRequest request, StreamObserver<Book> responseObserver) {
+        Book book = Book.newBuilder()
+                .setTitle(request.getTitle())
+                .setAuthor(request.getAuthor())
+                .setIsbn(request.getIsbn())
+                .setPublicationYear(request.getPublicationYear())
+                .setGenre(request.getGenre())
+                .build();
+
+        Book savedBook = bookRepository.save(book);
+
+        responseObserver.onNext(savedBook);
+        responseObserver.onCompleted();
     }
 }
