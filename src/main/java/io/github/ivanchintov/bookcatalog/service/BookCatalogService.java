@@ -51,6 +51,16 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
             return;
         }
 
+        if (bookRepository.findByIsbn(isbn).isPresent()) {
+            responseObserver.onError(
+                    Status.ALREADY_EXISTS
+                            .withDescription("A book with ISBN: " + isbn + " already exists.")
+                            .asRuntimeException()
+            );
+            
+            return;
+        }
+
         Book book = Book.newBuilder()
                 .setTitle(request.getTitle())
                 .setAuthor(request.getAuthor())

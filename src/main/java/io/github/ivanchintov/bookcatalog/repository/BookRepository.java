@@ -8,5 +8,7 @@ public interface BookRepository {
 
     Optional<Book> findById(long id);
 
+    Optional<Book> findByIsbn(String isbn);
+
     Book save(Book book);
 }
