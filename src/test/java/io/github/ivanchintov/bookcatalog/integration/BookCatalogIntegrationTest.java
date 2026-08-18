@@ -8,6 +8,7 @@ import io.github.ivanchintov.bookcatalog.repository.BookRepository;
 import io.github.ivanchintov.bookcatalog.repository.InMemoryBookRepository;
 import io.github.ivanchintov.bookcatalog.server.GrpcServer;
 import io.github.ivanchintov.bookcatalog.service.BookCatalogService;
+import io.github.ivanchintov.bookcatalog.validation.AddBookValidator;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import org.assertj.core.api.SoftAssertions;
@@ -25,7 +26,8 @@ public class BookCatalogIntegrationTest {
     private static final int PORT = 9090;
 
     private static final BookRepository REPOSITORY = new InMemoryBookRepository();
-    private static final BookCatalogService SERVICE = new BookCatalogService(REPOSITORY);
+    private static final AddBookValidator VALIDATOR = new AddBookValidator();
+    private static final BookCatalogService SERVICE = new BookCatalogService(REPOSITORY, VALIDATOR);
     private static final GrpcServer SERVER = new GrpcServer(PORT, SERVICE);
     private static final BookCatalogClient CLIENT = new BookCatalogClient("localhost", PORT);
 
@@ -101,7 +103,7 @@ public class BookCatalogIntegrationTest {
         AddBookRequest secondRequest = AddBookRequest.newBuilder()
                 .setTitle("Skiing the Balkans")
                 .setAuthor("Dimitar Dimitrov")
-                .setIsbn("978-6199080900")
+                .setIsbn("9786199080900")
                 .setPublicationYear(2017)
                 .setGenre(Genre.SPORTS)
                 .build();
@@ -117,5 +119,23 @@ public class BookCatalogIntegrationTest {
         softly.assertThat(persistedFirstBook.getTitle()).isEqualTo(firstRequest.getTitle());
         softly.assertThat(persistedSecondBook.getTitle()).isEqualTo(secondRequest.getTitle());
         softly.assertAll();
+    }
+
+    @Test
+    public void shouldReturnErrorOnBlankTitle() {
+        AddBookRequest addBookRequest = AddBookRequest.newBuilder()
+                .setTitle("")
+                .setAuthor("Isaac Asimov")
+                .setIsbn("9780553473357")
+                .setPublicationYear(1988)
+                .setGenre(Genre.SCIENCE_FICTION)
+                .build();
+
+        StatusRuntimeException exception = assertThrows(
+                StatusRuntimeException.class,
+                () -> CLIENT.addBook(addBookRequest));
+
+        assertThat(exception.getStatus().getCode()).isEqualTo(Status.Code.INVALID_ARGUMENT);
+        assertThat(exception.getStatus().getDescription()).isEqualTo("Title cannot be empty.");
     }
 }

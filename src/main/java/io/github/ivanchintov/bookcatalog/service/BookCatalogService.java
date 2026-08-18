@@ -5,7 +5,9 @@ import io.github.ivanchintov.bookcatalog.proto.Book;
 import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
 import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
 import io.github.ivanchintov.bookcatalog.repository.BookRepository;
+import io.github.ivanchintov.bookcatalog.validation.AddBookValidator;
 import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 import java.util.Optional;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
 
     private final BookRepository bookRepository;
+    private final AddBookValidator addBookValidator;
 
-    public BookCatalogService(BookRepository bookRepository) {
+    public BookCatalogService(BookRepository bookRepository, AddBookValidator addBookValidator) {
         this.bookRepository = bookRepository;
+        this.addBookValidator = addBookValidator;
     }
 
     @Override
@@ -38,10 +42,19 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
 
     @Override
     public void addBook(AddBookRequest request, StreamObserver<Book> responseObserver) {
+        String isbn;
+
+        try {
+            isbn = validateAddBookRequest(request);
+        } catch (StatusRuntimeException exception) {
+            responseObserver.onError(exception);
+            return;
+        }
+
         Book book = Book.newBuilder()
                 .setTitle(request.getTitle())
                 .setAuthor(request.getAuthor())
-                .setIsbn(request.getIsbn())
+                .setIsbn(isbn)
                 .setPublicationYear(request.getPublicationYear())
                 .setGenre(request.getGenre())
                 .build();
@@ -50,5 +63,14 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
 
         responseObserver.onNext(savedBook);
         responseObserver.onCompleted();
+    }
+
+    private String validateAddBookRequest(AddBookRequest request) {
+        addBookValidator.validateTitle(request.getTitle());
+        addBookValidator.validateAuthor(request.getAuthor());
+        String isbn = addBookValidator.validateIsbn(request.getIsbn());
+        addBookValidator.validatePublicationYear(request.getPublicationYear());
+        addBookValidator.validateGenre(request.getGenre());
+        return isbn;
     }
 }
