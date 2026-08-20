@@ -27,11 +27,13 @@ dependencies {
     // Client API
     implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
+    implementation("commons-validator:commons-validator:1.11.0")
     // Java annotations compatibility
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
 
-    testImplementation(platform("org.junit:junit-bom:6.0.0"))
+    testImplementation("org.mockito:mockito-core:5.23.0")
     testImplementation("org.assertj:assertj-core:3.27.7")
+    testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
