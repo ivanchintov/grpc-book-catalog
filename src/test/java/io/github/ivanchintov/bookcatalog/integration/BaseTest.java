@@ -15,8 +15,6 @@ import java.io.IOException;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseTest {
 
-    private static final int PORT = 9090;
-
     protected BookCatalogClient client;
     private GrpcServer server;
 
@@ -26,10 +24,11 @@ public abstract class BaseTest {
         AddBookValidator validator = new AddBookValidator();
         BookCatalogService service = new BookCatalogService(repository, validator);
 
-        server = new GrpcServer(PORT, service);
+        int port = 9090;
+        server = new GrpcServer(port, service);
         server.start();
 
-        client = new BookCatalogClient("localhost", PORT);
+        client = new BookCatalogClient("localhost", port);
     }
 
     @AfterAll

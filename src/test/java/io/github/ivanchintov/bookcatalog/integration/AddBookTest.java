@@ -67,7 +67,7 @@ public class AddBookTest extends BaseTest {
     }
 
     @Test
-    public void shouldRejectDuplicatedIsbn() {
+    public void shouldRejectDuplicateIsbn() {
         AddBookRequest firstRequest = AddBookRequest.newBuilder()
                 .setTitle("Harry Potter and the Philosopher's Stone")
                 .setAuthor("J. K. Rowling")
