@@ -44,7 +44,7 @@ public class BookCatalogServiceTest {
         Book savedBook = Book.newBuilder()
                 .setId(1L)
                 .setTitle("It")
-                .setAuthor("Steven King")
+                .setAuthor("Stephen King")
                 .setIsbn(isbn)
                 .setPublicationYear(1986)
                 .setGenre(Genre.SCIENCE_FICTION)
@@ -53,7 +53,7 @@ public class BookCatalogServiceTest {
 
         AddBookRequest request = AddBookRequest.newBuilder()
                 .setTitle("It")
-                .setAuthor("Steven King")
+                .setAuthor("Stephen King")
                 .setIsbn(isbn)
                 .setPublicationYear(1986)
                 .setGenre(Genre.SCIENCE_FICTION)

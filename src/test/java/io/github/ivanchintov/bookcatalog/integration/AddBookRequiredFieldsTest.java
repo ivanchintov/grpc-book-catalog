@@ -49,7 +49,7 @@ public class AddBookRequiredFieldsTest extends BaseTest {
     }
 
     @Test
-    public void shouldRejectBlancIsbn() {
+    public void shouldRejectBlankIsbn() {
         AddBookRequest addBookRequest = AddBookRequest.newBuilder()
                 .setTitle("Foundation")
                 .setAuthor("Isaac Asimov")
