@@ -39,6 +39,7 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 - ✅ Repository abstraction
 - ✅ In-memory repository
 - ✅ gRPC server bootstrap
+- ✅ GetBook RPC
 - ✅ AddBook RPC
 - ⬜ DeleteBook RPC
 - ⬜ ListBooks RPC
@@ -56,3 +57,61 @@ A Java 25 project built to learn gRPC from both a backend developer and Senior T
 - ⬜ Bidirectional streaming
 - ⬜ Interceptors
 - ⬜ Authentication
+
+## ▶️ Running the Project
+
+### Prerequisites
+
+- Java 25
+- Git
+
+The project includes the Gradle Wrapper, so a local Gradle installation is not required.
+
+### Clone the repository
+
+```bash
+git clone https://github.com/ivanchintov/grpc-book-catalog
+cd grpc-book-catalog
+```
+
+### Build the project
+
+```bash
+./gradlew build
+```
+
+On Windows:
+
+```powershell
+.\gradlew.bat build
+```
+
+### Run the tests
+
+```bash
+./gradlew test
+```
+
+### Run the application
+
+The application entry point is:
+
+```
+src/main/java/Application.java
+```
+
+The gRPC server starts on:
+
+```
+localhost:9090
+```
+
+The application can be started directly from the IDE by running `Application`.
+
+## 🧪 Testing
+
+The project includes both unit and integration tests.
+
+- **Unit tests** — `BookCatalogService` tested in isolation with Mockito.
+- **Integration tests** — the actual gRPC client, server, service, validator, and in-memory repository are exercised together.
+- Tests cover successful operations, validation failures, persistence, and duplicate ISBN handling.
