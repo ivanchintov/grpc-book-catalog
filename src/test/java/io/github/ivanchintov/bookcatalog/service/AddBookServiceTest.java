@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
-public class BookCatalogServiceTest {
+public class AddBookServiceTest {
 
     private BookRepository repository;
     private AddBookValidator validator;
@@ -39,8 +39,8 @@ public class BookCatalogServiceTest {
     public void shouldSaveBookWhenRequestIsValid() {
         String isbn = "0670813028";
         when(validator.validateIsbn(isbn)).thenReturn(isbn);
-
         when(repository.findByIsbn(isbn)).thenReturn(Optional.empty());
+
         Book savedBook = Book.newBuilder()
                 .setId(1L)
                 .setTitle("It")
@@ -58,6 +58,7 @@ public class BookCatalogServiceTest {
                 .setPublicationYear(1986)
                 .setGenre(Genre.SCIENCE_FICTION)
                 .build();
+
         service.addBook(request, responseObserver);
 
         ArgumentCaptor<Book> bookCaptor = ArgumentCaptor.forClass(Book.class);
@@ -86,6 +87,7 @@ public class BookCatalogServiceTest {
         AddBookRequest request = AddBookRequest.newBuilder()
                 .setTitle("")
                 .build();
+
         service.addBook(request, responseObserver);
 
         verify(responseObserver).onError(any(StatusRuntimeException.class));
@@ -111,13 +113,12 @@ public class BookCatalogServiceTest {
         ArgumentCaptor<StatusRuntimeException> exceptionCaptor =
                 ArgumentCaptor.forClass(StatusRuntimeException.class);
         verify(responseObserver).onError(exceptionCaptor.capture());
+        verify(repository, never()).save(any());
 
         StatusRuntimeException exception = exceptionCaptor.getValue();
         assertThat(exception.getStatus().getCode())
                 .isEqualTo(Status.Code.ALREADY_EXISTS);
         assertThat(exception.getStatus().getDescription())
                 .isEqualTo("A book with ISBN: " + isbn + " already exists.");
-
-        verify(repository, never()).save(any());
     }
 }
