@@ -38,6 +38,11 @@ public class InMemoryBookRepository implements BookRepository {
         return savedBook;
     }
 
+    @Override
+    public boolean deleteById(long id) {
+        return books.remove(id) != null;
+    }
+
     private void initializeBooks() {
         Book dune = Book.newBuilder()
                 .setId(1L)

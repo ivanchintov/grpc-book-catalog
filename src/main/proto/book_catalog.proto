@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package bookcatalog.v1;
 
+import "google/protobuf/empty.proto";
+
 option java_multiple_files = true;
 option java_package = "io.github.ivanchintov.bookcatalog.proto";
 option java_outer_classname = "BookCatalogProto";
@@ -39,7 +41,12 @@ message AddBookRequest {
   Genre genre = 5;
 }
 
+message DeleteBookRequest {
+  int64 id = 1;
+}
+
 service BookCatalog {
   rpc GetBook(GetBookRequest) returns (Book);
   rpc AddBook(AddBookRequest) returns (Book);
+  rpc DeleteBook(DeleteBookRequest) returns (google.protobuf.Empty);
 }

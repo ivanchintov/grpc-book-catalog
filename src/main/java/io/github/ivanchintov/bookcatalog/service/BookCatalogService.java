@@ -1,9 +1,7 @@
 package io.github.ivanchintov.bookcatalog.service;
 
-import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
-import io.github.ivanchintov.bookcatalog.proto.Book;
-import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
-import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
+import com.google.protobuf.Empty;
+import io.github.ivanchintov.bookcatalog.proto.*;
 import io.github.ivanchintov.bookcatalog.repository.BookRepository;
 import io.github.ivanchintov.bookcatalog.validation.AddBookValidator;
 import io.grpc.Status;
@@ -57,7 +55,7 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
                             .withDescription("A book with ISBN: " + isbn + " already exists.")
                             .asRuntimeException()
             );
-            
+
             return;
         }
 
@@ -72,6 +70,23 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
         Book savedBook = bookRepository.save(book);
 
         responseObserver.onNext(savedBook);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void deleteBook(DeleteBookRequest request, StreamObserver<Empty> responseObserver) {
+        long id = request.getId();
+        boolean deleted = bookRepository.deleteById(id);
+
+        if (!deleted) {
+            responseObserver.onError(
+                    Status.NOT_FOUND
+                            .withDescription("Book with ID: " + id + " was not found.")
+                            .asRuntimeException());
+            return;
+        }
+
+        responseObserver.onNext(Empty.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
