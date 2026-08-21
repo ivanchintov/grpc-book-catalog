@@ -1,9 +1,7 @@
 package io.github.ivanchintov.bookcatalog.client;
 
-import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
-import io.github.ivanchintov.bookcatalog.proto.Book;
-import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
-import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
+import com.google.protobuf.Empty;
+import io.github.ivanchintov.bookcatalog.proto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -31,6 +29,13 @@ public class BookCatalogClient {
 
     public Book addBook(AddBookRequest request) {
         return stub.addBook(request);
+    }
+
+    public Empty deleteBook(long id) {
+        DeleteBookRequest request = DeleteBookRequest.newBuilder()
+                .setId(id)
+                .build();
+        return stub.deleteBook(request);
     }
 
     public void shutdown() {
