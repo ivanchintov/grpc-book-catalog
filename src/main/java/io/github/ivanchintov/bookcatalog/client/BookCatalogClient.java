@@ -1,7 +1,11 @@
 package io.github.ivanchintov.bookcatalog.client;
 
 import com.google.protobuf.Empty;
-import io.github.ivanchintov.bookcatalog.proto.*;
+import io.github.ivanchintov.bookcatalog.proto.AddBookRequest;
+import io.github.ivanchintov.bookcatalog.proto.Book;
+import io.github.ivanchintov.bookcatalog.proto.BookCatalogGrpc;
+import io.github.ivanchintov.bookcatalog.proto.DeleteBookRequest;
+import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
