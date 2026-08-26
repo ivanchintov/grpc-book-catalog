@@ -4,6 +4,7 @@ import io.github.ivanchintov.bookcatalog.proto.Book;
 import io.github.ivanchintov.bookcatalog.proto.Genre;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +27,11 @@ public class InMemoryBookRepository implements BookRepository {
                 .stream()
                 .filter(book -> book.getIsbn().equals(isbn))
                 .findFirst();
+    }
+
+    @Override
+    public Iterator<Book> findAll() {
+        return books.values().iterator();
     }
 
     @Override

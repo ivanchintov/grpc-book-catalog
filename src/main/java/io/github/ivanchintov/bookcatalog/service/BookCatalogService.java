@@ -12,6 +12,7 @@ import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
@@ -40,6 +41,16 @@ public class BookCatalogService extends BookCatalogGrpc.BookCatalogImplBase {
                             .asRuntimeException()
             );
         }
+    }
+
+    @Override
+    public void listBooks(Empty request, StreamObserver<Book> responseObserver) {
+        Iterator<Book> books = bookRepository.findAll();
+
+        while (books.hasNext()) {
+            responseObserver.onNext(books.next());
+        }
+        responseObserver.onCompleted();
     }
 
     @Override

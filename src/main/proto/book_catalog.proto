@@ -49,4 +49,5 @@ service BookCatalog {
   rpc GetBook(GetBookRequest) returns (Book);
   rpc AddBook(AddBookRequest) returns (Book);
   rpc DeleteBook(DeleteBookRequest) returns (google.protobuf.Empty);
+  rpc ListBooks(google.protobuf.Empty) returns (stream Book);
 }

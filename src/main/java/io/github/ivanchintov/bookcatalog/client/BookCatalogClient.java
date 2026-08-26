@@ -9,6 +9,8 @@ import io.github.ivanchintov.bookcatalog.proto.GetBookRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+import java.util.Iterator;
+
 public class BookCatalogClient {
 
     private final ManagedChannel channel;
@@ -29,6 +31,10 @@ public class BookCatalogClient {
                 .build();
 
         return stub.getBook(request);
+    }
+
+    public Iterator<Book> listBooks() {
+        return stub.listBooks(Empty.getDefaultInstance());
     }
 
     public Book addBook(AddBookRequest request) {
